@@ -132,7 +132,7 @@ def delete_instancia(
 
 # --- Evolution API Interaction Endpoints ---
 
-@router.post("/{instancia_id}/connect", response_model=schemas.InstanciaQRCode)
+@router.post("/{instancia_id}/connect", response_model=schemas.InstanciaEvolutionQRCode)
 def connect_instancia(
     *,
     db: Session = Depends(deps.get_db),

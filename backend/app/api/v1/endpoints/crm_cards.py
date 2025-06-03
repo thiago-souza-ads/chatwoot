@@ -48,14 +48,13 @@ def create_card(
     *,
     db: Session = Depends(deps.get_db),
     card_in: schemas.CardCreate,
-    # Ensure user has access to the coluna they are adding a card to
-    coluna: models.Coluna = Depends(lambda card_in=card_in: get_coluna_empresa_user(coluna_id=card_in.coluna_id)),
-    # Any active user in the company can create a card in a column they can access
     current_user: models.Usuario = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Create new card for a specific coluna. User must belong to the company.
     """
+    # Buscar a coluna manualmente
+    coluna = get_coluna_empresa_user(coluna_id=card_in.coluna_id, db=db, current_user=current_user)
     # Dependency get_coluna_empresa_user already checks company access
     # Ensure the empresa_id in the input matches the board's company
     board = crud.board.get(db, id=coluna.board_id)

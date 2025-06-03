@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl
-from typing import Optional
+from typing import Optional, Dict
 from datetime import datetime
 
 # --- InstanciaEvolution Schemas ---
@@ -48,4 +48,15 @@ class SendMessagePayload(BaseModel):
     number: str
     textMessage: Dict[str, str]
     # Add other message types as needed (media, etc.)
+
+class InstanciaEvolutionInDB(InstanciaEvolutionInDBBase):
+    pass
+
+class InstanciaEvolutionStatusUpdate(BaseModel):
+    status_conexao: Optional[str] = None
+    qr_code_base64: Optional[str] = None
+    last_webhook_received: Optional[datetime] = None
+
+class InstanciaEvolutionQRCode(InstanciaQRCode):
+    pass
 

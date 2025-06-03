@@ -25,6 +25,9 @@ class TagInDBBase(TagBase):
 class Tag(TagInDBBase):
     pass
 
+class TagInDB(TagInDBBase):
+    pass
+
 # --- Card Schemas ---
 class CardBase(BaseModel):
     titulo: str
@@ -55,6 +58,9 @@ class CardInDBBase(CardBase):
 class Card(CardInDBBase):
     pass
 
+class CardInDB(CardInDBBase):
+    pass
+
 # --- Coluna Schemas ---
 class ColunaBase(BaseModel):
     nome: str
@@ -80,6 +86,9 @@ class ColunaInDBBase(ColunaBase):
 class Coluna(ColunaInDBBase):
     pass
 
+class ColunaInDB(ColunaInDBBase):
+    pass
+
 # --- Board Schemas ---
 class BoardBase(BaseModel):
     nome: str
@@ -101,5 +110,8 @@ class BoardInDBBase(BoardBase):
         orm_mode = True
 
 class Board(BoardInDBBase):
+    pass
+
+class BoardInDB(BoardInDBBase):
     pass
 
