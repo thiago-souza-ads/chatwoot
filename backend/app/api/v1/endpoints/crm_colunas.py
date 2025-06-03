@@ -44,17 +44,19 @@ def create_coluna(
     *,
     db: Session = Depends(deps.get_db),
     coluna_in: schemas.ColunaCreate,
-    # Ensure user has access to the board they are adding a column to
-    board: models.Board = Depends(lambda coluna_in=coluna_in: get_board_empresa_user(board_id=coluna_in.board_id)),
-    # Check if user has permission to modify the board (e.g., supervisor/admin)
     current_user: models.Usuario = Depends(deps.get_current_active_supervisor_or_superuser),
 ) -> Any:
     """
     Create new coluna for a specific board. Requires supervisor/superuser privileges for the board.
     """
-     # Extra check: ensure the supervisor/superuser belongs to the board's company if not superuser
+    # Obter o board primeiro para verificar permissões
+    board = crud.board.get(db, id=coluna_in.board_id)
+    if not board:
+        raise HTTPException(status_code=404, detail="Board not found")
+        
+    # Verificar se o usuário tem acesso ao board
     if not current_user.is_superuser and board.empresa_id != current_user.empresa_id:
-         raise HTTPException(status_code=403, detail="Not enough permissions for this board")
+        raise HTTPException(status_code=403, detail="Not enough permissions for this board")
 
     coluna = crud.coluna.create_with_board(db=db, obj_in=coluna_in, board_id=board.id)
     return coluna
@@ -106,4 +108,3 @@ def delete_coluna(
 
     coluna = crud.coluna.remove(db, id=coluna.id)
     return coluna
-

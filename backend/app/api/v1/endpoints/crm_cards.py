@@ -48,23 +48,28 @@ def create_card(
     *,
     db: Session = Depends(deps.get_db),
     card_in: schemas.CardCreate,
-    # Ensure user has access to the coluna they are adding a card to
-    coluna: models.Coluna = Depends(lambda card_in=card_in: get_coluna_empresa_user(coluna_id=card_in.coluna_id)),
-    # Any active user in the company can create a card in a column they can access
     current_user: models.Usuario = Depends(deps.get_current_active_user),
 ) -> Any:
     """
     Create new card for a specific coluna. User must belong to the company.
     """
-    # Dependency get_coluna_empresa_user already checks company access
-    # Ensure the empresa_id in the input matches the board's company
+    # Obter a coluna primeiro para verificar permissões
+    coluna = crud.coluna.get(db, id=card_in.coluna_id)
+    if not coluna:
+        raise HTTPException(status_code=404, detail="Coluna not found")
+        
+    # Obter o board para verificar a empresa
     board = crud.board.get(db, id=coluna.board_id)
+    if not board:
+        raise HTTPException(status_code=404, detail="Board associated with coluna not found")
+        
+    # Verificar se o usuário tem acesso ao board/coluna
+    if not current_user.is_superuser and board.empresa_id != current_user.empresa_id:
+        raise HTTPException(status_code=403, detail="Not enough permissions for this column's board")
+
+    # Ensure the empresa_id in the input matches the board's company
     if card_in.empresa_id != board.empresa_id:
         raise HTTPException(status_code=400, detail="Card empresa_id must match the board's empresa_id")
-
-    # Ensure the user creating the card belongs to the correct company (redundant check due to dependency, but safe)
-    if not current_user.is_superuser and current_user.empresa_id != board.empresa_id:
-         raise HTTPException(status_code=403, detail="User does not belong to the board's company")
 
     card = crud.card.create_with_coluna_empresa(
         db=db, obj_in=card_in, coluna_id=coluna.id, empresa_id=board.empresa_id
@@ -126,4 +131,3 @@ def delete_card(
     # Dependency get_card_empresa_user already checks company access
     card = crud.card.remove(db, id=card.id)
     return card
-

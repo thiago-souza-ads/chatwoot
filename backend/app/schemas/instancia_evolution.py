@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl
-from typing import Optional
+from typing import Optional, Dict
 from datetime import datetime
 
 # --- InstanciaEvolution Schemas ---
@@ -32,7 +32,7 @@ class InstanciaEvolutionInDBBase(InstanciaEvolutionBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True  # Atualizado de orm_mode para from_attributes
 
 # Schema for returning InstanciaEvolution in API
 class InstanciaEvolution(InstanciaEvolutionInDBBase):
@@ -48,4 +48,3 @@ class SendMessagePayload(BaseModel):
     number: str
     textMessage: Dict[str, str]
     # Add other message types as needed (media, etc.)
-

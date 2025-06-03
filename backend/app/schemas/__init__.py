@@ -2,8 +2,8 @@
 from .token import Token, TokenData
 from .empresa import Empresa, EmpresaCreate, EmpresaUpdate, EmpresaInDB
 from .usuario import Usuario, UsuarioCreate, UsuarioUpdate, UsuarioInDB
-from .crm import Board, BoardCreate, BoardUpdate, BoardInDB, Coluna, ColunaCreate, ColunaUpdate, ColunaInDB, Card, CardCreate, CardUpdate, CardInDB, Tag, TagCreate, TagUpdate, TagInDB
-from .instancia_evolution import InstanciaEvolution, InstanciaEvolutionCreate, InstanciaEvolutionUpdate, InstanciaEvolutionInDB, InstanciaEvolutionStatusUpdate, InstanciaEvolutionQRCode
+from .crm import Board, BoardCreate, BoardUpdate, Coluna, ColunaCreate, ColunaUpdate, Card, CardCreate, CardUpdate, Tag, TagCreate, TagUpdate
+from .instancia_evolution import InstanciaEvolution, InstanciaEvolutionCreate, InstanciaEvolutionUpdate, InstanciaQRCode, SendMessagePayload
 
 # Exemplo de como usar BaseModel e Field (se necessário em outros schemas)
 from pydantic import BaseModel, Field, EmailStr
@@ -50,4 +50,3 @@ from datetime import datetime
 #     plano: Optional[str] = "basico"
 #     data_expiracao_plano: Optional[datetime] = None
 #     configuracoes: Optional[dict] = {}
-
