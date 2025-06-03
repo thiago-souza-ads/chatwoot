@@ -1,0 +1,72 @@
+.crm-page {
+    padding: 20px;
+}
+
+.crm-board {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    padding-bottom: 10px; /* Space for scrollbar */
+    min-height: 400px; /* Ensure board has some height */
+}
+
+.crm-column {
+    background-color: #f4f5f7;
+    border-radius: 3px;
+    width: 272px;
+    min-width: 272px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 150px); /* Adjust based on header/footer height */
+}
+
+.crm-column h3 {
+    margin: 0 0 10px 0;
+    padding: 0 8px;
+    font-size: 1em;
+}
+
+.crm-card-list {
+    flex-grow: 1;
+    min-height: 100px; /* Minimum height for dropping */
+    overflow-y: auto; /* Allow vertical scrolling within column */
+    padding: 5px;
+    background-color: #f4f5f7; /* Default background */
+    transition: background-color 0.2s ease;
+}
+
+.crm-card-list.dragging-over {
+    background-color: #e2e4e9;
+}
+
+.crm-card {
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(9,30,66,.25);
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.crm-card:hover {
+    background-color: #f4f5f7;
+}
+
+.crm-card.dragging {
+    background-color: #d6e0f0; /* Light blue when dragging */
+    box-shadow: 2px 2px 5px rgba(9,30,66,.25);
+}
+
+.crm-card h4 {
+    margin: 0 0 4px 0;
+    font-size: 0.9em;
+}
+
+.crm-card p {
+    margin: 0;
+    font-size: 0.85em;
+    color: #5e6c84;
+}
+
