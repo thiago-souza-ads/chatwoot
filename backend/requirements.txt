@@ -7,4 +7,5 @@ python-dotenv
 mysql-connector-python
 redis
 celery
+email-validator
 
